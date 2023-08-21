@@ -1,5 +1,7 @@
 package com.example.weathby.response
 
+import com.squareup.moshi.Json
+
 data class Forecast(
-    val forecastday: List<DayForecast>
+    @Json(name = "forecastday") val forecastday: List<DayForecast>
 )

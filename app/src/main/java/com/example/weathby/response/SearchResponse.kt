@@ -1,5 +1,7 @@
 package com.example.weathby.response
 
+import com.squareup.moshi.Json
+
 data class SearchResponse(
-    val result: List<Search>
+    @Json(name = "data") val result: List<Search>
 )

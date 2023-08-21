@@ -1,6 +1,8 @@
 package com.example.weathby.response
 
+import com.squareup.moshi.Json
+
 data class ForecastCondition(
-    val text: String,
-    val icon: String
+    @Json(name = "text") val text: String,
+    @Json(name = "icon") val icon: String
 )
