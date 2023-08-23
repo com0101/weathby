@@ -2,30 +2,28 @@ package com.example.weathby.setting
 
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.weathby.R
-import com.example.weathby.databinding.FragmentSearchBinding
+import com.example.weathby.databinding.FragmentSettingBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SettingFragment : BottomSheetDialogFragment() {
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
 
-    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.root.parent as View) }
-    var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
+    private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
+    private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
 
-//        val bottomSheetBehavior = BottomSheetBehavior.from(binding.root.parent as View)
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.content as View)
         bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -37,7 +35,7 @@ class SettingFragment : BottomSheetDialogFragment() {
             }
         }
         bottomSheetCallback?.let {
-            bottomSheetBehavior.addBottomSheetCallback(it)
+            bottomSheetBehavior?.addBottomSheetCallback(it)
         }
         return binding.root
     }
@@ -46,7 +44,7 @@ class SettingFragment : BottomSheetDialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         bottomSheetCallback?.let {
-            bottomSheetBehavior.removeBottomSheetCallback(it)
+            bottomSheetBehavior?.removeBottomSheetCallback(it)
         }
     }
 

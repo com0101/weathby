@@ -5,4 +5,5 @@
     <color name="dark_gray">#3F3F3F</color>
     <color name="medium_gray">#393939</color>
     <color name="light_gray">#676767</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -1,35 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:transitionName="detailBackground"
     tools:context=".detail.DetailFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/cityName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="12dp"
+        android:textColor="@color/medium_gray"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:transitionName="detailCity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/backArrow"
+        tools:text="LONDON" />
+
+    <TextView
+        android:id="@+id/weekName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/medium_gray"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/cityName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="MONDAY" />
+
+    <TextView
+        android:id="@+id/cityTem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/app_name"
+        android:textColor="@color/medium_gray"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/weekName"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="25°" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backArrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/back"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toTopOf="@+id/cityName"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/cityWindyIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="30dp"
+        app:srcCompat="@drawable/wind"
+        app:layout_constraintTop_toBottomOf="@+id/cityTem"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/cityWindy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/light_gray"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/cityWindyIcon"
+        app:layout_constraintStart_toStartOf="@+id/cityWindyIcon"
+        app:layout_constraintEnd_toEndOf="@+id/cityWindyIcon"
+        tools:text="3m/s" />
+
+    <ImageView
+        android:id="@+id/cityRainyIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/umbrella"
+        app:layout_constraintTop_toTopOf="@+id/cityWindyIcon"
+        app:layout_constraintEnd_toStartOf="@+id/cityWetIcon"
+        app:layout_constraintStart_toEndOf="@+id/cityWindyIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/cityWindyIcon" />
+
+    <TextView
+        android:id="@+id/cityRainy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/light_gray"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/cityRainyIcon"
+        app:layout_constraintStart_toStartOf="@+id/cityRainyIcon"
+        app:layout_constraintEnd_toEndOf="@+id/cityRainyIcon"
+        tools:text="30%" />
+
+    <ImageView
+        android:id="@+id/cityWetIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="30dp"
+        app:srcCompat="@drawable/drop"
+        app:layout_constraintTop_toTopOf="@+id/cityRainyIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cityRainyIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/cityRainyIcon" />
+
+    <TextView
+        android:id="@+id/cityWet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/light_gray"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/cityWetIcon"
+        app:layout_constraintStart_toStartOf="@+id/cityWetIcon"
+        app:layout_constraintEnd_toEndOf="@+id/cityWetIcon"
+        tools:text="70%" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dayTempList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
-
-        <Button
-            android:id="@+id/button_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintBottom_toTopOf="@id/textview_second"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textview_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_second" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintHeight_percent="0.5"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityWindy"
+        app:layout_constraintVertical_bias="1.0"
+        tools:itemCount="10" />
+</androidx.constraintlayout.widget.ConstraintLayout>
