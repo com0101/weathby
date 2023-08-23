@@ -2,47 +2,44 @@ package com.example.weathby.search
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.weathby.R
-
-import com.example.weathby.search.placeholder.PlaceholderContent.PlaceholderItem
-import com.example.weathby.databinding.FragmentSearchBinding
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import com.example.weathby.databinding.ItemSearchCityBinding
 
 /**
- * [RecyclerView.Adapter] that can display a [CitiesVO].
- * TODO: Replace the implementation with code for your data type.
+ * [RecyclerView.Adapter] that can display a [CityResult].
  */
-class SearchAdapter(
-    private val values: List<CitiesVO>
-) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(private val onClickListener: OnClickListener) : ListAdapter<CityResult, SearchAdapter.SearchViewHolder>(DiffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            FragmentSearchBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-
+    class OnClickListener(val clickListener: (cityName: String) -> Unit) {
+        fun onClick(cityName: String) = clickListener(cityName)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-//        holder.idView.text = item.id
-//        holder.contentView.text = item.content
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+        return SearchViewHolder(ItemSearchCityBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+        holder.setupView(currentList[position])
+    }
 
-    inner class ViewHolder(binding: FragmentSearchBinding) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+    inner class SearchViewHolder(private val binding: ItemSearchCityBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun setupView(result: CityResult) = binding.apply {
+            cityName.text = result.cityName
+            country.text = result.country
+            root.setOnClickListener {
+                onClickListener.onClick(result.cityName)
+            }
+        }
+    }
 
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+    companion object DiffCallback : DiffUtil.ItemCallback<CityResult>() {
+        override fun areItemsTheSame(oldItem: CityResult, newItem: CityResult): Boolean {
+            return oldItem === newItem
+        }
+        override fun areContentsTheSame(oldItem: CityResult, newItem: CityResult): Boolean {
+            return oldItem.id == newItem.id
         }
     }
 
