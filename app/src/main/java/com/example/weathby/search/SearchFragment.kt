@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.weathby.R
 import com.example.weathby.databinding.FragmentSearchBinding
 
 /**
@@ -36,6 +38,10 @@ class SearchFragment : Fragment() {
         searchList.apply {
             adapter = searchAdapter
             itemAnimator = null
+        }
+
+        backArrow.setOnClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_homeFragment2)
         }
     }
 }

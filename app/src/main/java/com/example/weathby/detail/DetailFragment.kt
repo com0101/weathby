@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.weathby.R
 import com.example.weathby.databinding.FragmentDetailBinding
 
@@ -15,26 +16,39 @@ import com.example.weathby.databinding.FragmentDetailBinding
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val dayAdapter by lazy { DetailTemAdapter() }
+    val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
+    }
 
-        binding.backArrow.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+    private fun setupView() = binding.apply {
+        args.city.also {
+            cityName.text = it.cityName
+            weekName.text = it.day
+            cityTem.text = it.temp
+            cityWindy.text = it.wind
+            cityRainy.text = it.rain
+            cityWet.text = it.wet
+            dayTempList.adapter = dayAdapter
+            dayAdapter.submitList(it.dayTem)
+        }
+
+        backArrow.setOnClickListener {
+            findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
         }
     }
 

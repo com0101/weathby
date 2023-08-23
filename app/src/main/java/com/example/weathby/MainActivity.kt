@@ -22,12 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.myNavHostFragment, HomeFragment())
-        fragmentTransaction.commit()
-        getCurrentForecast()
     }
 
     private fun getCurrentForecast() {

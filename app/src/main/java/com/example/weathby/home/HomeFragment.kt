@@ -24,7 +24,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val cardAdapter by lazy { HomeCityAdapter(
         HomeCityAdapter.OnClickListener { data ->
-
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(data)
+            this.findNavController().navigate(action)
         }
     )}
     private val tempAdapter by lazy { HomeTempAdapter() }
@@ -79,8 +80,18 @@ class HomeFragment : Fragment() {
             itemAnimator = null
             cardAdapter.submitList(listOf(fakeData))
         }
-        cityTemList.adapter = tempAdapter
+        cityTemList.apply {
+            adapter = tempAdapter
+            itemAnimator = null
+        }
         tempAdapter.submitList(mock)
+        searchButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        settingButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_settingFragment)
+        }
 
     }
 

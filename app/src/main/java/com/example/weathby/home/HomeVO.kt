@@ -1,6 +1,11 @@
 package com.example.weathby.home
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 sealed class HomeVo(val id: Int)
+
+@Parcelize
 data class CityCard(
     val cityId: Int,
     val cityName: String,
@@ -11,13 +16,16 @@ data class CityCard(
     val rain: String,
     val isMarked: Boolean,
     val dayTem: List<CityDayTemp>
-) : HomeVo(cityId)
+) : HomeVo(cityId), Parcelable
+
+@Parcelize
 data class CityDayTemp(
     val day: String,
     val icon: IconType,
     val maxTemp: String,
     val minTemp: String
-)
+): Parcelable
+
 data class CityHourTemp(
     val cityId: Int,
     val time: String,
