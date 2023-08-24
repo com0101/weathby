@@ -25,5 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.getForecast("London")
+        // 加入這行執行閃退測試
+//        throw RuntimeException("Test Crash")
     }
 }
