@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
+import com.example.weathby.MainViewModel
 import com.example.weathby.databinding.FragmentDetailBinding
 
 /**
@@ -20,6 +22,7 @@ class DetailFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private val dayAdapter by lazy { DetailTemAdapter() }
+    private val viewModel by activityViewModels<MainViewModel>()
     val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(

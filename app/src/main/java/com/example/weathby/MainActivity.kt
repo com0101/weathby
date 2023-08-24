@@ -2,6 +2,7 @@ package com.example.weathby
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.example.weathby.databinding.ActivityMainBinding
@@ -13,8 +14,7 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private val repository = WeatherRepository()
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -22,19 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
-
-    private fun getCurrentForecast() {
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-                runCatching {
-                    repository.getForecast("London")
-                }.onSuccess {
-                    Log.i("success", "onCreate: ${it.body()}")
-                }.onFailure {
-                    Log.i("fail", "onCreate: $it")
-                }
-            }
-        }
+        viewModel.getForecast("London")
     }
 }

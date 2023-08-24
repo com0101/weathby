@@ -37,7 +37,7 @@ class HomeTemAdapter : ListAdapter<CityHourTemp, HomeTemAdapter.HourViewHolder>(
             return oldItem === newItem
         }
         override fun areContentsTheSame(oldItem: CityHourTemp, newItem: CityHourTemp): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
     }
 

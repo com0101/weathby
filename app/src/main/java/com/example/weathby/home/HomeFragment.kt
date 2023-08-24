@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.weathby.MainViewModel
 import com.example.weathby.R
 import com.example.weathby.databinding.FragmentHomeBinding
+import com.example.weathby.resource.Resource
+import com.example.weathby.setProgressVisibility
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 /**
@@ -30,6 +35,7 @@ class HomeFragment : Fragment() {
         }
     )}
     private val tempAdapter by lazy { HomeTemAdapter() }
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,50 +48,22 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        setupViewModel()
     }
 
     private fun setupView() = binding.apply {
         postponeEnterTransition()
-        val fakeData = CityCard(
-            0,
-            "LONDON",
-            "MONDAY",
-            "30°",
-            "15m/s",
-            "30%",
-            "50%",
-            false,
-            listOf(
-                CityDayTemp(
-                    "Tue",
-                    IconType.SUN,
-                    "30°",
-                    "25°"
-                ), CityDayTemp(
-                    "Wed",
-                    IconType.SUN,
-                    "30°",
-                    "30°"
-                ))
-        )
-        val mock = listOf(CityHourTemp(
-            0, "12:00", "30°", IconType.CLOUD
-        ), CityHourTemp(
-            0, "13:00", "27°", IconType.SUN
-        ),CityHourTemp(
-            0, "14:00", "29°", IconType.RAIN
-        ))
         cityList.apply {
             adapter = cardAdapter
             itemAnimator = null
-            cardAdapter.submitList(listOf(fakeData))
             doOnPreDraw { startPostponedEnterTransition() }
         }
         cityTemList.apply {
             adapter = tempAdapter
             itemAnimator = null
+            doOnPreDraw { startPostponedEnterTransition() }
         }
-        tempAdapter.submitList(mock)
+
         searchButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
@@ -93,7 +71,38 @@ class HomeFragment : Fragment() {
         settingButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_settingFragment)
         }
+    }
 
+    private fun setupViewModel() {
+        viewModel.cardList.observe(viewLifecycleOwner) {
+            binding.cardProgress.setProgressVisibility {
+                it is Resource.Loading
+            }
+
+            when(it) {
+                is Resource.Success -> {
+                    cardAdapter.submitList(it.data)
+                }
+                is Resource.Error -> {
+                    Snackbar.make(binding.root, "${it.message}", Snackbar.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
+        }
+        viewModel.tempList.observe(viewLifecycleOwner) {
+            binding.tempProgress.setProgressVisibility {
+                it is Resource.Loading
+            }
+            when(it) {
+                is Resource.Success -> {
+                    tempAdapter.submitList(it.data)
+                }
+                is Resource.Error -> {
+                    Snackbar.make(binding.root, "${it.message}", Snackbar.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
+        }
     }
 
     override fun onDestroyView() {

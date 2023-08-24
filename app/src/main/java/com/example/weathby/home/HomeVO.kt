@@ -2,12 +2,13 @@ package com.example.weathby.home
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
-sealed class HomeVo(val id: Int)
+sealed class HomeVo(val id: UUID)
 
 @Parcelize
 data class CityCard(
-    val cityId: Int,
+    val cityId: UUID,
     val cityName: String,
     val day: String,
     val temp: String,
@@ -26,15 +27,15 @@ data class CityDayTemp(
     val minTemp: String
 ): Parcelable
 
+@Parcelize
 data class CityHourTemp(
-    val cityId: Int,
     val time: String,
     val temp: String,
     val iconType: IconType
-) : HomeVo(cityId)
+): Parcelable
 
-data class EmptyState(val cityId: Int) : HomeVo(cityId)
-data class ErrorState(val cityId: Int, val message: String) : HomeVo(cityId)
+data class EmptyState(val cityId: UUID) : HomeVo(cityId)
+data class ErrorState(val cityId: UUID, val message: String) : HomeVo(cityId)
 enum class IconType {
     RAIN, SUN, CLOUD
 }
