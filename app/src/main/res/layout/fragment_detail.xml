@@ -10,18 +10,18 @@
 
     <TextView
         android:id="@+id/cityName"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="30dp"
         android:textColor="@color/medium_gray"
         android:textSize="45sp"
         android:textStyle="bold"
         android:transitionName="detailCity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/backArrow"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="LONDON" />
 
     <TextView
@@ -33,10 +33,12 @@
         android:textColor="@color/medium_gray"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:transitionName="detailWeek"
         app:layout_constraintTop_toBottomOf="@id/cityName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="MONDAY" />
+
 
     <TextView
         android:id="@+id/cityTem"
@@ -48,20 +50,10 @@
         android:textColor="@color/medium_gray"
         android:textSize="45sp"
         android:textStyle="bold"
+        android:transitionName="detailTerm"
         app:layout_constraintTop_toBottomOf="@id/weekName"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="25°" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/backArrow"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/back"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="12dp"
-        app:backgroundTint="@null"
-        app:layout_constraintTop_toTopOf="@+id/cityName"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/cityWindyIcon"
@@ -69,6 +61,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginStart="30dp"
+        android:transitionName="detailWindyIcon"
         app:srcCompat="@drawable/wind"
         app:layout_constraintTop_toBottomOf="@+id/cityTem"
         app:layout_constraintStart_toStartOf="parent" />
@@ -83,6 +76,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:transitionName="detailWindy"
         app:layout_constraintTop_toBottomOf="@id/cityWindyIcon"
         app:layout_constraintStart_toStartOf="@+id/cityWindyIcon"
         app:layout_constraintEnd_toEndOf="@+id/cityWindyIcon"
@@ -92,6 +86,7 @@
         android:id="@+id/cityRainyIcon"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:transitionName="detailRainyIcon"
         app:srcCompat="@drawable/umbrella"
         app:layout_constraintTop_toTopOf="@+id/cityWindyIcon"
         app:layout_constraintEnd_toStartOf="@+id/cityWetIcon"
@@ -108,6 +103,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:transitionName="detailRainy"
         app:layout_constraintTop_toBottomOf="@+id/cityRainyIcon"
         app:layout_constraintStart_toStartOf="@+id/cityRainyIcon"
         app:layout_constraintEnd_toEndOf="@+id/cityRainyIcon"
@@ -118,6 +114,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="30dp"
+        android:transitionName="detailWetIcon"
         app:srcCompat="@drawable/drop"
         app:layout_constraintTop_toTopOf="@+id/cityRainyIcon"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,6 +131,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:transitionName="detailWet"
         app:layout_constraintTop_toBottomOf="@+id/cityWetIcon"
         app:layout_constraintStart_toStartOf="@+id/cityWetIcon"
         app:layout_constraintEnd_toEndOf="@+id/cityWetIcon"
@@ -151,5 +149,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityWindy"
         app:layout_constraintVertical_bias="1.0"
-        tools:itemCount="10" />
+        tools:itemCount="10"
+        tools:listitem="@layout/item_day_temp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backArrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/back"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toTopOf="@+id/cityName"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

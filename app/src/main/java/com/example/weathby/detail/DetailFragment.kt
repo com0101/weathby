@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.weathby.R
+import androidx.transition.TransitionInflater
 import com.example.weathby.databinding.FragmentDetailBinding
 
 /**
@@ -27,6 +27,8 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        sharedElementEnterTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
         return binding.root
     }
 
@@ -48,7 +50,7 @@ class DetailFragment : Fragment() {
         }
 
         backArrow.setOnClickListener {
-            findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+            findNavController().navigateUp()
         }
     }
 

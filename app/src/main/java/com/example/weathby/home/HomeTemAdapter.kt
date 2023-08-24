@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weathby.R
 import com.example.weathby.databinding.ItemCityTemBinding
 
-class HomeTempAdapter : ListAdapter<CityHourTemp, HomeTempAdapter.HourViewHolder>(DiffCallback) {
+class HomeTemAdapter : ListAdapter<CityHourTemp, HomeTemAdapter.HourViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourViewHolder {
         return HourViewHolder(ItemCityTemBinding.inflate(LayoutInflater.from(parent.context), parent, false))

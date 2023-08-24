@@ -23,21 +23,20 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private val cardAdapter by lazy { HomeCityAdapter(
-        HomeCityAdapter.OnClickListener { data ->
+        HomeCityAdapter.OnClickListener { data, extra ->
+            // Safe Args
             val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(data)
-            this.findNavController().navigate(action)
+            this.findNavController().navigate(action, extra)
         }
     )}
-    private val tempAdapter by lazy { HomeTempAdapter() }
+    private val tempAdapter by lazy { HomeTemAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +45,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupView() = binding.apply {
+        postponeEnterTransition()
         val fakeData = CityCard(
             0,
             "LONDON",
@@ -79,6 +79,7 @@ class HomeFragment : Fragment() {
             adapter = cardAdapter
             itemAnimator = null
             cardAdapter.submitList(listOf(fakeData))
+            doOnPreDraw { startPostponedEnterTransition() }
         }
         cityTemList.apply {
             adapter = tempAdapter
