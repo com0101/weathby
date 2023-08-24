@@ -16,7 +16,6 @@ import com.example.weathby.resource.Resource
 import com.example.weathby.setProgressVisibility
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -76,28 +75,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.cardList.observe(viewLifecycleOwner) {
+        viewModel.getCity.observe(viewLifecycleOwner) {
             binding.cardProgress.setProgressVisibility {
+                it is Resource.Loading
+            }
+            binding.tempProgress.setProgressVisibility {
                 it is Resource.Loading
             }
 
             when(it) {
                 is Resource.Success -> {
-                    cardAdapter.submitList(it.data)
-                }
-                is Resource.Error -> {
-                    Snackbar.make(binding.root, "${it.message}", Snackbar.LENGTH_LONG).show()
-                }
-                else -> {}
-            }
-        }
-        viewModel.tempList.observe(viewLifecycleOwner) {
-            binding.tempProgress.setProgressVisibility {
-                it is Resource.Loading
-            }
-            when(it) {
-                is Resource.Success -> {
-                    tempAdapter.submitList(it.data)
+                    cardAdapter.submitList(listOf(it.data))
+                    tempAdapter.submitList(it.data?.hourTemp)
                 }
                 is Resource.Error -> {
                     Snackbar.make(binding.root, "${it.message}", Snackbar.LENGTH_LONG).show()

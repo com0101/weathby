@@ -16,7 +16,8 @@ data class CityCard(
     val wet: String,
     val rain: String,
     val isMarked: Boolean,
-    val dayTem: List<CityDayTemp>
+    val dayTem: List<CityDayTemp>,
+    val hourTemp: List<CityHourTemp>
 ) : HomeVo(cityId), Parcelable
 
 @Parcelize

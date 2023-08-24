@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weathby.home.CityCard
 import com.example.weathby.home.CityDayTemp
 import com.example.weathby.home.CityHourTemp
+import com.example.weathby.home.ErrorState
 import com.example.weathby.home.IconType
 import com.example.weathby.localDataBase.CityEntities
 import com.example.weathby.resource.Resource
@@ -22,69 +23,28 @@ class MainViewModel @Inject constructor(
     private val repository: WeatherRepository
 ): ViewModel() {
 
-    private val _isCardInserted = MutableLiveData<Resource<Boolean>>()
-    val isCardInserted: LiveData<Resource<Boolean>> = _isCardInserted
+    private val _isCardInserted = MutableLiveData<Boolean>()
+    val isCardInserted: LiveData<Boolean> = _isCardInserted
 
-    private val _cardList = MutableLiveData<Resource<List<CityCard>>>()
-    val cardList: LiveData<Resource<List<CityCard>>> = _cardList
+    private val _getCity = MutableLiveData<Resource<CityCard>>()
+    val getCity: LiveData<Resource<CityCard>> = _getCity
 
-    private val _tempList = MutableLiveData<Resource<List<CityHourTemp>>>()
-    val tempList: LiveData<Resource<List<CityHourTemp>>> = _tempList
 
     fun getForecast(country: String) {
         viewModelScope.launch {
-            _cardList.value = Resource.Loading()
+            _getCity.value = Resource.Loading()
             runCatching {
                 repository.getForecast(country)
             }.onSuccess {
-                it.body()?.apply {
-                    val (card, temp) = setCityCard(this)
-                    _cardList.value = Resource.Success(card)
-                    _tempList.value = Resource.Success(temp)
+                when(it) {
+                    is CityCard -> _getCity.value = Resource.Success(it)
+                    is ErrorState -> _getCity.value = Resource.Error(it.message)
+                    else ->  {}
                 }
             }.onFailure {
-                _isCardInserted.value = Resource.Error(it.message ?: "連線逾時請稍後再試")
+                _getCity.value = Resource.Error(it.message ?: "連線逾時請稍後再試")
             }
         }
-    }
-
-    fun setCityCard(forecast: ForecastResponse): Pair<List<CityCard>, List<CityHourTemp>> {
-        val cardList = listOf(
-            CityCard(
-                UUID.randomUUID(),
-                forecast.location.name,
-                forecast.location.localtime_epoch.getDayOfWeek(),
-                "${forecast.current.temp_c}°",
-                "${forecast.current.wind_kph}m/s",
-                "${forecast.current.humidity}%",
-                "${forecast.current.chance_of_rain ?: 0}%",
-                true,
-                forecast.forecast.forecastday.map { dayForecast ->
-                    CityDayTemp(
-                        dayForecast.date_epoch.getDayOfWeek(),
-                        when {
-                            (dayForecast.hour[0].chance_of_rain ?: 0) > 50 -> IconType.RAIN
-                            dayForecast.hour[0].temp_c > 27 -> IconType.SUN
-                            else -> IconType.CLOUD
-                        },
-                        "${dayForecast.hour.maxOfOrNull { it.temp_c }}°",
-                        "${dayForecast.hour.minOfOrNull { it.temp_c }}°",
-                    )
-                }
-            )
-        )
-        val hourTemp = forecast.forecast.forecastday[0].hour.map {
-            CityHourTemp(
-                (it.time_epoch?:0).getHourFromTimeStamp(),
-                "${it.temp_c}°",
-                when {
-                    (it.chance_of_rain ?: 0) > 50 -> IconType.RAIN
-                    it.temp_c > 27 -> IconType.SUN
-                    else -> IconType.CLOUD
-                },
-            )
-        }
-        return Pair(cardList, hourTemp)
     }
 
     private fun setCardDB(context: Context, city: CityEntities) {
@@ -92,29 +52,11 @@ class MainViewModel @Inject constructor(
             runCatching {
                 repository.insertDB(city)
             }.onSuccess {
-                _isCardInserted.value = Resource.Success(true)
+                _isCardInserted.value = true
             }.onFailure {
-                _isCardInserted.value = Resource.Error(it.message ?: "連線逾時請稍後再試")
+                _isCardInserted.value = false
             }
         }
     }
 
-    fun getCardDB(context: Context) {
-        _cardList.value = Resource.Loading()
-        viewModelScope.launch {
-            runCatching {
-                repository.getDB()
-            }.onSuccess {
-//                _cardList.value = Resource.Success(
-//                    it.map {
-//                        CityCard(
-//                            ...
-//                        )
-//                    }
-//                )
-            }.onFailure {
-                _cardList.value = Resource.Error(it.message ?: "連線逾時請稍後再試")
-            }
-        }
-    }
 }
