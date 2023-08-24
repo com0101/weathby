@@ -11,6 +11,7 @@ import com.example.weathby.home.CityHourTemp
 import com.example.weathby.home.ErrorState
 import com.example.weathby.home.IconType
 import com.example.weathby.localDataBase.CityEntities
+import com.example.weathby.resource.ReMap.setCityCard
 import com.example.weathby.resource.Resource
 import com.example.weathby.response.ForecastResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,11 +37,9 @@ class MainViewModel @Inject constructor(
             runCatching {
                 repository.getForecast(country)
             }.onSuccess {
-                when(it) {
-                    is CityCard -> _getCity.value = Resource.Success(it)
-                    is ErrorState -> _getCity.value = Resource.Error(it.message)
-                    else ->  {}
-                }
+               it.body()?.apply {
+                   _getCity.value = Resource.Success(setCityCard(this))
+               }
             }.onFailure {
                 _getCity.value = Resource.Error(it.message ?: "連線逾時請稍後再試")
             }

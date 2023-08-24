@@ -11,10 +11,10 @@ import java.util.UUID
 
 object ReMap {
 
-    fun setCityCard(forecast: ForecastResponse, id: UUID): CityCard {
+    fun setCityCard(forecast: ForecastResponse): CityCard {
         val cardList =
             CityCard(
-                id,
+                UUID.randomUUID(),
                 forecast.location.name,
                 forecast.location.localtime_epoch.getDayOfWeek(),
                 "${forecast.current.temp_c}°",

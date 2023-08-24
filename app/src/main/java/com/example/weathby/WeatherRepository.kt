@@ -27,16 +27,8 @@ class WeatherRepository @Inject constructor(
     private val api: WeathbyService
 ) {
 
-    suspend fun getForecast(location: String): HomeVo {
-        return api.getForecast(query = location).run {
-            val id = UUID.randomUUID()
-            val result = if (isSuccessful) {
-                setCityCard(body()!!, id)
-            } else {
-                ErrorState(id, errorBody().toString())
-            }
-            result
-        }
+    suspend fun getForecast(location: String): Response<ForecastResponse> {
+        return api.getForecast(query = location)
     }
 
     suspend fun getForecastSearch(input: String): Response<SearchResponse> {
