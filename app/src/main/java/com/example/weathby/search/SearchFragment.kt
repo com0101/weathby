@@ -10,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.weathby.MainViewModel
 import com.example.weathby.R
 import com.example.weathby.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A fragment representing a list of Items.
  */
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!

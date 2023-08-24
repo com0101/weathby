@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-
-@Database(entities = [CityEntities::class], version = 1)
+@TypeConverters(value = [RoomTypeConverters::class])
+@Database(entities = [CityEntities::class], version = 2)
 abstract class CityDatabase: RoomDatabase() {
     abstract fun cityDao(): CityDAO
 

@@ -12,11 +12,16 @@ import com.example.weathby.home.IconType
 import com.example.weathby.localDataBase.CityEntities
 import com.example.weathby.resource.Resource
 import com.example.weathby.response.ForecastResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
-    private val repository = WeatherRepository()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: WeatherRepository
+): ViewModel() {
+
     private val _isCardInserted = MutableLiveData<Resource<Boolean>>()
     val isCardInserted: LiveData<Resource<Boolean>> = _isCardInserted
 
@@ -85,7 +90,7 @@ class MainViewModel: ViewModel() {
     private fun setCardDB(context: Context, city: CityEntities) {
         viewModelScope.launch {
             runCatching {
-                repository.insertDB(context, city)
+                repository.insertDB(city)
             }.onSuccess {
                 _isCardInserted.value = Resource.Success(true)
             }.onFailure {
@@ -98,7 +103,7 @@ class MainViewModel: ViewModel() {
         _cardList.value = Resource.Loading()
         viewModelScope.launch {
             runCatching {
-                repository.getDB(context)
+                repository.getDB()
             }.onSuccess {
 //                _cardList.value = Resource.Success(
 //                    it.map {

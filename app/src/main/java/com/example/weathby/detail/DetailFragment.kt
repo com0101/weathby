@@ -11,10 +11,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.example.weathby.MainViewModel
 import com.example.weathby.databinding.FragmentDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
@@ -23,7 +25,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val dayAdapter by lazy { DetailTemAdapter() }
     private val viewModel by activityViewModels<MainViewModel>()
-    val args: DetailFragmentArgs by navArgs()
+    private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

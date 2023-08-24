@@ -14,7 +14,7 @@ class WeatherWidgetProvider: GlanceAppWidgetReceiver() {
     override fun onEnabled(context: Context?) {
         super.onEnabled(context)
         CoroutineScope(Dispatchers.IO).launch {
-            WidgetRepository.updateWidgetInfo()
+            WidgetRepository().updateWidgetInfo()
         }
     }
 }

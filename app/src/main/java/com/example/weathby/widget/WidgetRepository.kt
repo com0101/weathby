@@ -4,14 +4,19 @@ import com.example.weathby.R
 import com.example.weathby.getDayFromTimeStamp
 import com.example.weathby.getMonthFromTimeStamp
 import com.example.weathby.network.WeathbyRetrofit
+import com.example.weathby.network.WeathbyService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Instant
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object WidgetRepository {
-    private val service = WeathbyRetrofit.makeRetrofitService()
+@Singleton
+class WidgetRepository {
+    @Inject
+    lateinit var service: WeathbyService
 
     private var _currentWeather = MutableStateFlow<WidgetInfo>(LoadingState)
     val currentWeather: StateFlow<WidgetInfo> get() = _currentWeather

@@ -73,7 +73,7 @@ class WeatherWidget : GlanceAppWidget() {
     @Composable
     fun Content() {
         // Get the stored stated based on our custom state definition.
-        val weatherInfo by WidgetRepository.currentWeather.collectAsState()
+        val weatherInfo by WidgetRepository().currentWeather.collectAsState()
         // It will be one of the provided ones
         val size = LocalSize.current
 
@@ -259,7 +259,7 @@ class WeatherWidget : GlanceAppWidget() {
 
     private suspend fun refreshWeather(context: Context) {
         WeatherWidget().updateAll(context)
-        WidgetRepository.updateWidgetInfo()
+        WidgetRepository().updateWidgetInfo()
     }
 
 }

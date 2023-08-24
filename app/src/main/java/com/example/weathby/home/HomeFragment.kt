@@ -15,11 +15,13 @@ import com.example.weathby.databinding.FragmentHomeBinding
 import com.example.weathby.resource.Resource
 import com.example.weathby.setProgressVisibility
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null

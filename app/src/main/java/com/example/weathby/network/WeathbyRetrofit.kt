@@ -18,12 +18,12 @@ object WeathbyRetrofit {
         .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
         .build()
 
-    fun makeRetrofitService(): WeathbyService {
-         return Retrofit.Builder()
-             .addConverterFactory(MoshiConverterFactory.create(moshi))
-             .baseUrl(BASE_URL)
-             .client(client)
-             .build().create(WeathbyService::class.java)
+    fun makeRetrofitService(): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .baseUrl(BASE_URL)
+            .client(client)
+            .build()
     }
 
 }

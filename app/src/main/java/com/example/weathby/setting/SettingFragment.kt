@@ -12,10 +12,12 @@ import com.example.weathby.AppStored
 import com.example.weathby.databinding.FragmentSettingBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 private val Context.dataStore by preferencesDataStore("settings") // extension
 
+@AndroidEntryPoint
 class SettingFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
